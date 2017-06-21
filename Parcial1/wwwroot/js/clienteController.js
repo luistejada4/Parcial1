@@ -1,4 +1,4 @@
-﻿var app = angular.module("App", []);
+﻿var app = angular.module("App", ['ngMask']);
 
 app.controller("ClientesController", function ($scope, $http) {
 
@@ -28,15 +28,16 @@ app.controller("ClientesController", function ($scope, $http) {
 
     $scope.registrarNuevoCliente = function () {
 
-        alert("Alerta!")
+    
         $http.post("api/Clientes/", $scope.newCliente).then(function (response) {
 
             $scope.clientes.push(response.data);
+            $scope.clienteClicked(response.data);
             $scope.newCliente = {};
 
         }, function (response) {
 
-            alert("Error")
+         
 
         })
     };
@@ -58,17 +59,27 @@ app.controller("ClientesController", function ($scope, $http) {
 
     $scope.addNewPhone = function (telefono) {
 
-        
-        telefono.Tipo = 1;
+
+        switch (telefono.Tipo) {
+
+            case "Telefono fijo":
+
+                telefono.Tipo = 1;
+                break;
+            case "Telefono movil":
+
+                telefono.Tipo = 2;
+                break;
+        }
         $scope.clienteDetail.telefonos.push(telefono);
         $http.put("api/Clientes/" + $scope.clienteDetail.id, $scope.clienteDetail).then(
             function (response) {
 
-                alert("Bien");
+              
             },
             function (response) {
 
-                alert("Mal");
+               
             });
         $scope.newPhone = {};
     };

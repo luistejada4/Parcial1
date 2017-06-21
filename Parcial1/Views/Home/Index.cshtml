@@ -28,10 +28,10 @@
             <label>Registrar nuevo cliente:</label>
             <input type="checkbox" ng-model="checkNewCliente" aria-label="Toggle ngShow"><br />
             <div ng-show="checkNewCliente">
-                <form ng-submit="registrarNuevoCliente()">
+                <form name="registrarCliente" ng-submit="registrarNuevoCliente()">
 
-                    <input type="text" ng-model="newCliente.Nombre" />
-                    <input type="submit" value="Registrtar" />
+                    <input class="form-control" type="text" name="Nombre" ng-model="newCliente.Nombre" ng-minlength="8" ng-maxlength="60"  required/><br />
+                    <input class="btn btn-primary" type="submit" value="Registrtar" ng-show="registrarCliente.Nombre.$valid"/>
 
                 </form>
             </div>
@@ -62,13 +62,15 @@
                 </tbody>
             </table>
             <div class="form-group">
-                <label for="select">Select list:</label>
-                <select class="form-control" id="select">
-                    <option>Telefono fijo</option>
-                    <option>Telefono movil</option>
-                </select><br />
-                <input type="text" class="form-control" ng-model="newPhone.descripcion"/><br />
-                <button class="btn btn-primary" ng-click="addNewPhone(newPhone)">Agregar</button>
+                <form name="PhoneForm">
+                    <label for="select">Tipo:</label>
+                    <select class="form-control" id="select">
+                        <option>Telefono fijo</option>
+                        <option>Telefono movil</option>
+                    </select><br />
+                    <label>Numero telefonico: </label><input mask="999-999-9999" type="text" class="form-control" name="Descripcion" ng-model="newPhone.descripcion" ng-pattern="/^\d{3}-\d{3}-\d{4}$/" required /><br />
+                    <button class="btn btn-primary" ng-click="addNewPhone(newPhone)" ng-disabled="PhoneForm.Descripcion.$valid == false">Agregar</button>
+                </form>
             </div>
             
             </div>
